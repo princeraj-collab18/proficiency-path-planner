@@ -10,33 +10,83 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ShellRouteImport } from './routes/_shell'
+import { Route as ShellAssessmentRouteImport } from './routes/_shell.assessment'
+import { Route as ShellDashboardRouteImport } from './routes/_shell.dashboard'
+import { Route as ShellProfileRouteImport } from './routes/_shell.profile'
+import { Route as ShellRolesRouteImport } from './routes/_shell.roles'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ShellRoute = ShellRouteImport.update({
+  id: '/_shell',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ShellAssessmentRoute = ShellAssessmentRouteImport.update({
+  id: '/assessment',
+  path: '/assessment',
+  getParentRoute: () => ShellRoute,
+} as any)
+const ShellDashboardRoute = ShellDashboardRouteImport.update({
+  id: '/dashboard',
+  path: '/dashboard',
+  getParentRoute: () => ShellRoute,
+} as any)
+const ShellProfileRoute = ShellProfileRouteImport.update({
+  id: '/profile',
+  path: '/profile',
+  getParentRoute: () => ShellRoute,
+} as any)
+const ShellRolesRoute = ShellRolesRouteImport.update({
+  id: '/roles',
+  path: '/roles',
+  getParentRoute: () => ShellRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/assessment': typeof ShellAssessmentRoute
+  '/dashboard': typeof ShellDashboardRoute
+  '/profile': typeof ShellProfileRoute
+  '/roles': typeof ShellRolesRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/assessment': typeof ShellAssessmentRoute
+  '/dashboard': typeof ShellDashboardRoute
+  '/profile': typeof ShellProfileRoute
+  '/roles': typeof ShellRolesRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/_shell': typeof ShellRouteWithChildren
+  '/_shell/assessment': typeof ShellAssessmentRoute
+  '/_shell/dashboard': typeof ShellDashboardRoute
+  '/_shell/profile': typeof ShellProfileRoute
+  '/_shell/roles': typeof ShellRolesRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths: '/' | '/assessment' | '/dashboard' | '/profile' | '/roles'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to: '/' | '/assessment' | '/dashboard' | '/profile' | '/roles'
+  id:
+    | '__root__'
+    | '/'
+    | '/_shell'
+    | '/_shell/assessment'
+    | '/_shell/dashboard'
+    | '/_shell/profile'
+    | '/_shell/roles'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  ShellRoute: typeof ShellRouteWithChildren
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +98,63 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_shell': {
+      id: '/_shell'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof ShellRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_shell/assessment': {
+      id: '/_shell/assessment'
+      path: '/assessment'
+      fullPath: '/assessment'
+      preLoaderRoute: typeof ShellAssessmentRouteImport
+      parentRoute: typeof ShellRoute
+    }
+    '/_shell/dashboard': {
+      id: '/_shell/dashboard'
+      path: '/dashboard'
+      fullPath: '/dashboard'
+      preLoaderRoute: typeof ShellDashboardRouteImport
+      parentRoute: typeof ShellRoute
+    }
+    '/_shell/profile': {
+      id: '/_shell/profile'
+      path: '/profile'
+      fullPath: '/profile'
+      preLoaderRoute: typeof ShellProfileRouteImport
+      parentRoute: typeof ShellRoute
+    }
+    '/_shell/roles': {
+      id: '/_shell/roles'
+      path: '/roles'
+      fullPath: '/roles'
+      preLoaderRoute: typeof ShellRolesRouteImport
+      parentRoute: typeof ShellRoute
+    }
   }
 }
 
+interface ShellRouteChildren {
+  ShellAssessmentRoute: typeof ShellAssessmentRoute
+  ShellDashboardRoute: typeof ShellDashboardRoute
+  ShellProfileRoute: typeof ShellProfileRoute
+  ShellRolesRoute: typeof ShellRolesRoute
+}
+
+const ShellRouteChildren: ShellRouteChildren = {
+  ShellAssessmentRoute: ShellAssessmentRoute,
+  ShellDashboardRoute: ShellDashboardRoute,
+  ShellProfileRoute: ShellProfileRoute,
+  ShellRolesRoute: ShellRolesRoute,
+}
+
+const ShellRouteWithChildren = ShellRoute._addFileChildren(ShellRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  ShellRoute: ShellRouteWithChildren,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
