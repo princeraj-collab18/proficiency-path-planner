@@ -11,8 +11,10 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ShellRouteImport } from './routes/_shell'
+import { Route as ShellAssessmentRouteImport } from './routes/_shell.assessment'
 import { Route as ShellDashboardRouteImport } from './routes/_shell.dashboard'
 import { Route as ShellProfileRouteImport } from './routes/_shell.profile'
+import { Route as ShellRolesRouteImport } from './routes/_shell.roles'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -22,6 +24,11 @@ const IndexRoute = IndexRouteImport.update({
 const ShellRoute = ShellRouteImport.update({
   id: '/_shell',
   getParentRoute: () => rootRouteImport,
+} as any)
+const ShellAssessmentRoute = ShellAssessmentRouteImport.update({
+  id: '/assessment',
+  path: '/assessment',
+  getParentRoute: () => ShellRoute,
 } as any)
 const ShellDashboardRoute = ShellDashboardRouteImport.update({
   id: '/dashboard',
@@ -33,30 +40,48 @@ const ShellProfileRoute = ShellProfileRouteImport.update({
   path: '/profile',
   getParentRoute: () => ShellRoute,
 } as any)
+const ShellRolesRoute = ShellRolesRouteImport.update({
+  id: '/roles',
+  path: '/roles',
+  getParentRoute: () => ShellRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/assessment': typeof ShellAssessmentRoute
   '/dashboard': typeof ShellDashboardRoute
   '/profile': typeof ShellProfileRoute
+  '/roles': typeof ShellRolesRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/assessment': typeof ShellAssessmentRoute
   '/dashboard': typeof ShellDashboardRoute
   '/profile': typeof ShellProfileRoute
+  '/roles': typeof ShellRolesRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/_shell': typeof ShellRouteWithChildren
+  '/_shell/assessment': typeof ShellAssessmentRoute
   '/_shell/dashboard': typeof ShellDashboardRoute
   '/_shell/profile': typeof ShellProfileRoute
+  '/_shell/roles': typeof ShellRolesRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/dashboard' | '/profile'
+  fullPaths: '/' | '/assessment' | '/dashboard' | '/profile' | '/roles'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/dashboard' | '/profile'
-  id: '__root__' | '/' | '/_shell' | '/_shell/dashboard' | '/_shell/profile'
+  to: '/' | '/assessment' | '/dashboard' | '/profile' | '/roles'
+  id:
+    | '__root__'
+    | '/'
+    | '/_shell'
+    | '/_shell/assessment'
+    | '/_shell/dashboard'
+    | '/_shell/profile'
+    | '/_shell/roles'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -80,6 +105,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ShellRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_shell/assessment': {
+      id: '/_shell/assessment'
+      path: '/assessment'
+      fullPath: '/assessment'
+      preLoaderRoute: typeof ShellAssessmentRouteImport
+      parentRoute: typeof ShellRoute
+    }
     '/_shell/dashboard': {
       id: '/_shell/dashboard'
       path: '/dashboard'
@@ -94,17 +126,28 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ShellProfileRouteImport
       parentRoute: typeof ShellRoute
     }
+    '/_shell/roles': {
+      id: '/_shell/roles'
+      path: '/roles'
+      fullPath: '/roles'
+      preLoaderRoute: typeof ShellRolesRouteImport
+      parentRoute: typeof ShellRoute
+    }
   }
 }
 
 interface ShellRouteChildren {
+  ShellAssessmentRoute: typeof ShellAssessmentRoute
   ShellDashboardRoute: typeof ShellDashboardRoute
   ShellProfileRoute: typeof ShellProfileRoute
+  ShellRolesRoute: typeof ShellRolesRoute
 }
 
 const ShellRouteChildren: ShellRouteChildren = {
+  ShellAssessmentRoute: ShellAssessmentRoute,
   ShellDashboardRoute: ShellDashboardRoute,
   ShellProfileRoute: ShellProfileRoute,
+  ShellRolesRoute: ShellRolesRoute,
 }
 
 const ShellRouteWithChildren = ShellRoute._addFileChildren(ShellRouteChildren)
