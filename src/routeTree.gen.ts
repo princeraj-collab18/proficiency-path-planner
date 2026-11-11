@@ -13,7 +13,9 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as ShellRouteImport } from './routes/_shell'
 import { Route as ShellAssessmentRouteImport } from './routes/_shell.assessment'
 import { Route as ShellDashboardRouteImport } from './routes/_shell.dashboard'
+import { Route as ShellGapAnalysisRouteImport } from './routes/_shell.gap-analysis'
 import { Route as ShellProfileRouteImport } from './routes/_shell.profile'
+import { Route as ShellRecommendationsRouteImport } from './routes/_shell.recommendations'
 import { Route as ShellRolesRouteImport } from './routes/_shell.roles'
 
 const IndexRoute = IndexRouteImport.update({
@@ -35,9 +37,19 @@ const ShellDashboardRoute = ShellDashboardRouteImport.update({
   path: '/dashboard',
   getParentRoute: () => ShellRoute,
 } as any)
+const ShellGapAnalysisRoute = ShellGapAnalysisRouteImport.update({
+  id: '/gap-analysis',
+  path: '/gap-analysis',
+  getParentRoute: () => ShellRoute,
+} as any)
 const ShellProfileRoute = ShellProfileRouteImport.update({
   id: '/profile',
   path: '/profile',
+  getParentRoute: () => ShellRoute,
+} as any)
+const ShellRecommendationsRoute = ShellRecommendationsRouteImport.update({
+  id: '/recommendations',
+  path: '/recommendations',
   getParentRoute: () => ShellRoute,
 } as any)
 const ShellRolesRoute = ShellRolesRouteImport.update({
@@ -50,14 +62,18 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/assessment': typeof ShellAssessmentRoute
   '/dashboard': typeof ShellDashboardRoute
+  '/gap-analysis': typeof ShellGapAnalysisRoute
   '/profile': typeof ShellProfileRoute
+  '/recommendations': typeof ShellRecommendationsRoute
   '/roles': typeof ShellRolesRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/assessment': typeof ShellAssessmentRoute
   '/dashboard': typeof ShellDashboardRoute
+  '/gap-analysis': typeof ShellGapAnalysisRoute
   '/profile': typeof ShellProfileRoute
+  '/recommendations': typeof ShellRecommendationsRoute
   '/roles': typeof ShellRolesRoute
 }
 export interface FileRoutesById {
@@ -66,21 +82,39 @@ export interface FileRoutesById {
   '/_shell': typeof ShellRouteWithChildren
   '/_shell/assessment': typeof ShellAssessmentRoute
   '/_shell/dashboard': typeof ShellDashboardRoute
+  '/_shell/gap-analysis': typeof ShellGapAnalysisRoute
   '/_shell/profile': typeof ShellProfileRoute
+  '/_shell/recommendations': typeof ShellRecommendationsRoute
   '/_shell/roles': typeof ShellRolesRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/assessment' | '/dashboard' | '/profile' | '/roles'
+  fullPaths:
+    | '/'
+    | '/assessment'
+    | '/dashboard'
+    | '/gap-analysis'
+    | '/profile'
+    | '/recommendations'
+    | '/roles'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/assessment' | '/dashboard' | '/profile' | '/roles'
+  to:
+    | '/'
+    | '/assessment'
+    | '/dashboard'
+    | '/gap-analysis'
+    | '/profile'
+    | '/recommendations'
+    | '/roles'
   id:
     | '__root__'
     | '/'
     | '/_shell'
     | '/_shell/assessment'
     | '/_shell/dashboard'
+    | '/_shell/gap-analysis'
     | '/_shell/profile'
+    | '/_shell/recommendations'
     | '/_shell/roles'
   fileRoutesById: FileRoutesById
 }
@@ -119,11 +153,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ShellDashboardRouteImport
       parentRoute: typeof ShellRoute
     }
+    '/_shell/gap-analysis': {
+      id: '/_shell/gap-analysis'
+      path: '/gap-analysis'
+      fullPath: '/gap-analysis'
+      preLoaderRoute: typeof ShellGapAnalysisRouteImport
+      parentRoute: typeof ShellRoute
+    }
     '/_shell/profile': {
       id: '/_shell/profile'
       path: '/profile'
       fullPath: '/profile'
       preLoaderRoute: typeof ShellProfileRouteImport
+      parentRoute: typeof ShellRoute
+    }
+    '/_shell/recommendations': {
+      id: '/_shell/recommendations'
+      path: '/recommendations'
+      fullPath: '/recommendations'
+      preLoaderRoute: typeof ShellRecommendationsRouteImport
       parentRoute: typeof ShellRoute
     }
     '/_shell/roles': {
@@ -139,14 +187,18 @@ declare module '@tanstack/react-router' {
 interface ShellRouteChildren {
   ShellAssessmentRoute: typeof ShellAssessmentRoute
   ShellDashboardRoute: typeof ShellDashboardRoute
+  ShellGapAnalysisRoute: typeof ShellGapAnalysisRoute
   ShellProfileRoute: typeof ShellProfileRoute
+  ShellRecommendationsRoute: typeof ShellRecommendationsRoute
   ShellRolesRoute: typeof ShellRolesRoute
 }
 
 const ShellRouteChildren: ShellRouteChildren = {
   ShellAssessmentRoute: ShellAssessmentRoute,
   ShellDashboardRoute: ShellDashboardRoute,
+  ShellGapAnalysisRoute: ShellGapAnalysisRoute,
   ShellProfileRoute: ShellProfileRoute,
+  ShellRecommendationsRoute: ShellRecommendationsRoute,
   ShellRolesRoute: ShellRolesRoute,
 }
 
