@@ -8,29 +8,31 @@ import { Label } from "@/components/ui/label";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { PageHeader, Panel } from "@/components/app/shared";
 import { RoleSelect } from "@/components/app/RoleSelect";
+import { AISkillAdvisor } from "@/components/app/AISkillAdvisor";
 import { today, useLookups, useStore } from "@/lib/store";
 import { LEVEL_DESCRIPTIONS, LEVEL_LABELS, LEVELS, type Level } from "@/lib/types";
 import { cn } from "@/lib/utils";
 import { pageHead } from "@/lib/seo";
 
 export const Route = createFileRoute("/_shell/assessment")({
-  head: () => pageHead("Skill Assessment", "Self-assess your skills on a 1–5 scale with clear level descriptions."),
+  head: () => pageHead("Skill Assessment", "Describe career goals and skill evidence for AI suggestions, then self-assess skills on a clear 1–5 scale."),
   component: AssessmentPage,
 });
 
 function AssessmentPage() {
   const { data, update } = useStore();
   const { selectedRole, catById } = useLookups();
-  const [scope, setScope] = useState<"role" | "all">("role");
+  const [scope, setScope] = useState<"role" | "all" | "ai">("role");
+  const [aiSkillIds, setAiSkillIds] = useState<string[]>([]);
   const saved = useMemo(() => Object.fromEntries(data.profile.map((p) => [p.skillId, p.level])) as Record<string, Level>, [data.profile]);
   const [answers, setAnswers] = useState<Record<string, Level | null>>({});
 
   useEffect(() => setAnswers(saved), [saved]);
 
   const skills = useMemo(() => {
-    const ids = scope === "role" && selectedRole ? new Set(selectedRole.requirements.map((r) => r.skillId)) : null;
+    const ids = scope === "ai" ? new Set(aiSkillIds) : scope === "role" && selectedRole ? new Set(selectedRole.requirements.map((r) => r.skillId)) : null;
     return data.skills.filter((s) => !ids || ids.has(s.id)).sort((a, b) => a.categoryId.localeCompare(b.categoryId) || a.name.localeCompare(b.name));
-  }, [data.skills, scope, selectedRole]);
+  }, [aiSkillIds, data.skills, scope, selectedRole]);
 
   const changed = Object.keys({ ...answers, ...saved }).filter((k) => (answers[k] ?? null) !== (saved[k] ?? null));
 
@@ -58,6 +60,8 @@ function AssessmentPage() {
     <>
       <PageHeader title="Skill Assessment" description="Pick the level that best matches what you can do today. Leave a skill unrated if you have not assessed it." actions={<RoleSelect />} />
 
+      <AISkillAdvisor onFocusSkills={(ids) => { setAiSkillIds(ids); setScope("ai"); }} />
+
       <Panel title="Level guide" className="mb-6">
         <dl className="grid gap-3 sm:grid-cols-2 lg:grid-cols-5">
           {LEVELS.map((l) => (
@@ -70,9 +74,10 @@ function AssessmentPage() {
       </Panel>
 
       <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
-        <Tabs value={scope} onValueChange={(v) => setScope(v as "role" | "all")}>
-          <TabsList>
+        <Tabs value={scope} onValueChange={(v) => setScope(v as "role" | "all" | "ai")}>
+          <TabsList className="h-auto flex-wrap justify-start">
             <TabsTrigger value="role">Target role skills</TabsTrigger>
+            {aiSkillIds.length > 0 && <TabsTrigger value="ai">AI suggested ({aiSkillIds.length})</TabsTrigger>}
             <TabsTrigger value="all">All skills ({data.skills.length})</TabsTrigger>
           </TabsList>
         </Tabs>
