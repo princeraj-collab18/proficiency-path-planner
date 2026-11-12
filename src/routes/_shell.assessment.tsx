@@ -44,7 +44,8 @@ function AssessmentPage() {
         if (lvl == null) profile = profile.filter((p) => p.skillId !== id);
         else {
           const i = profile.findIndex((p) => p.skillId === id);
-          if (i >= 0) profile[i] = { ...profile[i], level: lvl, assessedAt: date };
+          const existing = profile[i];
+          if (i >= 0 && existing) profile[i] = { ...existing, skillId: id, level: lvl, assessedAt: date };
           else profile.push({ skillId: id, level: lvl, assessedAt: date });
         }
       }
