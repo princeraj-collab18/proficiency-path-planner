@@ -13,7 +13,7 @@ import { uid, useStore } from "@/lib/store";
 import type { AppData, Skill } from "@/lib/types";
 import { pageHead } from "@/lib/seo";
 
-export const Route = createFileRoute("/_shell/taxonomy")({
+export const Route = createFileRoute("/_authenticated/_shell/taxonomy")({
   head: () => pageHead("Skill Taxonomy", "Manage skill categories and skills with duplicate checks and safe deletion."),
   component: TaxonomyPage,
 });

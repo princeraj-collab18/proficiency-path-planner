@@ -8,7 +8,7 @@ import { analyzeRole, averageLevel, prioritize } from "@/lib/calc";
 import { useLookups, useStore } from "@/lib/store";
 import { pageHead } from "@/lib/seo";
 
-export const Route = createFileRoute("/_shell/dashboard")({
+export const Route = createFileRoute("/_authenticated/_shell/dashboard")({
   head: () => pageHead("Dashboard", "Overview of assessed skills, average proficiency, gaps and recent activity."),
   component: Dashboard,
 });

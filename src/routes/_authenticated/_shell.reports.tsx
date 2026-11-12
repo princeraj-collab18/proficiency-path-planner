@@ -10,7 +10,7 @@ import { useLookups, useStore } from "@/lib/store";
 import { LEVEL_LABELS } from "@/lib/types";
 import { pageHead } from "@/lib/seo";
 
-export const Route = createFileRoute("/_shell/reports")({
+export const Route = createFileRoute("/_authenticated/_shell/reports")({
   head: () => pageHead("Reports", "Print-friendly skill-gap report with CSV export."),
   component: ReportsPage,
 });

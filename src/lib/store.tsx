@@ -1,9 +1,11 @@
-// App state + persistence.
-// DEMO PERSISTENCE: data is saved in this browser's localStorage. It stays after a
-// page refresh but is NOT shared between devices/browsers and is lost if browser
-// data is cleared. No server or account is involved.
-import { createContext, useCallback, useContext, useEffect, useMemo, useState, type ReactNode } from "react";
-import { createSampleData } from "./sample-data";
+// Per-account state. Writes are serialized and owner-checked before Cloud saves.
+import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState, type ReactNode } from "react";
+import { useServerFn } from "@tanstack/react-start";
+import { useQueryClient } from "@tanstack/react-query";
+import { saveStudentWorkspace } from "./student.functions";
+import { createStudentData, ownsStudentData } from "./student-data";
+import { supabase } from "@/integrations/supabase/client";
+import { useAuth } from "./auth";
 import type { AppData } from "./types";
 
 export const STORAGE_KEY = "ssga-data-v1";
@@ -20,49 +22,62 @@ interface StoreValue {
   /** Apply a change. Optional log message appears in "Recent activity". */
   update: (fn: (d: AppData) => AppData, logText?: string) => void;
   reset: () => void;
+  saving: boolean;
+  flush: () => Promise<void>;
+  retrySave: () => void;
 }
 
 const StoreContext = createContext<StoreValue | null>(null);
 
-export function StoreProvider({ children }: { children: ReactNode }) {
-  const [data, setData] = useState<AppData>(createSampleData);
-  const [ready, setReady] = useState(false);
+export function StoreProvider({ children, ownerId, initialData }: { children: ReactNode; ownerId: string; initialData: AppData }) {
+  const [data, setData] = useState<AppData>(initialData);
+  const { user } = useAuth();
+  const ready = user?.id === ownerId;
   const [loadError, setLoadError] = useState<string | null>(null);
+  const [saving, setSaving] = useState(false);
+  const latest = useRef(initialData);
+  const pending = useRef<Promise<void>>(Promise.resolve());
+  const active = useRef(true);
+  const failure = useRef(false);
+  const save = useServerFn(saveStudentWorkspace);
+  const queryClient = useQueryClient();
+  useEffect(() => { active.current = true; return () => { active.current = false; }; }, []);
 
-  useEffect(() => {
-    try {
-      const raw = localStorage.getItem(STORAGE_KEY);
-      if (raw) {
-        const parsed = JSON.parse(raw) as AppData;
-        if (parsed?.version === 1 && Array.isArray(parsed.skills)) setData(parsed);
-        else setLoadError("Saved data was in an unknown format. Sample data loaded instead.");
+  const persist = useCallback((next: AppData) => {
+    setSaving(true);
+    pending.current = pending.current.then(async () => {
+      if (!active.current) return;
+      const { data: { user: currentUser } } = await supabase.auth.getUser();
+      if (!currentUser || !ownsStudentData(ownerId, currentUser.id) || !active.current) return;
+      try {
+        await save({ data: next });
+        queryClient.setQueryData(["student-workspace", ownerId], { userId: ownerId, data: next });
+        failure.current = false;
+        if (active.current) setLoadError(null);
+      } catch {
+        failure.current = true;
+        if (active.current) setLoadError("Changes are not saved yet. Check your connection and retry before leaving.");
       }
-    } catch {
-      setLoadError("Saved data could not be read. Sample data loaded instead.");
-    }
-    setReady(true);
-  }, []);
-
-  useEffect(() => {
-    if (!ready) return;
-    try {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
-    } catch {
-      setLoadError("Could not save to browser storage (it may be full or disabled).");
-    }
-  }, [data, ready]);
+    }).finally(() => { if (active.current) setSaving(false); });
+  }, [ownerId, save, queryClient]);
 
   const update = useCallback((fn: (d: AppData) => AppData, logText?: string) => {
-    setData((d) => {
-      const next = fn(d);
-      if (!logText) return next;
-      return { ...next, log: [{ id: uid("log"), date: new Date().toISOString(), text: logText }, ...next.log].slice(0, 50) };
-    });
-  }, []);
-
-  const reset = useCallback(() => setData(createSampleData()), []);
-
-  const value = useMemo(() => ({ data, ready, loadError, update, reset }), [data, ready, loadError, update, reset]);
+    if (!ready) return;
+    const next = fn(latest.current);
+    const final = logText ? { ...next, log: [{ id: uid("log"), date: new Date().toISOString(), text: logText }, ...next.log].slice(0, 50) } : next;
+    latest.current = final;
+    setData(final);
+    persist(final);
+  }, [ready, persist]);
+  const reset = useCallback(() => update(() => createStudentData()), [update]);
+  const retrySave = useCallback(() => persist(latest.current), [persist]);
+  const flush = useCallback(async () => { await pending.current; if (failure.current) throw new Error("Your changes are not saved. Retry saving before signing out."); }, []);
+  useEffect(() => {
+    const warn = (event: BeforeUnloadEvent) => { if (saving || failure.current) { event.preventDefault(); event.returnValue = ""; } };
+    window.addEventListener("beforeunload", warn);
+    return () => window.removeEventListener("beforeunload", warn);
+  }, [saving]);
+  const value = useMemo(() => ({ data, ready, loadError, update, reset, saving, flush, retrySave }), [data, ready, loadError, update, reset, saving, flush, retrySave]);
   return <StoreContext.Provider value={value}>{children}</StoreContext.Provider>;
 }
 

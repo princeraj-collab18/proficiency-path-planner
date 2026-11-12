@@ -1,9 +1,11 @@
 import { createServerFn } from "@tanstack/react-start";
+import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 import { cleanSuggestions, suggestionInputSchema, SUGGESTION_LIMIT, type SkillSuggestion } from "./skill-suggestions";
 
 type SuggestionResult = { suggestions: SkillSuggestion[]; error: null } | { suggestions: []; error: string };
 
 export const suggestSkillsToAssess = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
   .inputValidator((input: unknown) => suggestionInputSchema.parse(input))
   .handler(async ({ data }): Promise<SuggestionResult> => {
     const { generateResponse, GatewayError } = await import("@lovable.dev/ai-gateway");

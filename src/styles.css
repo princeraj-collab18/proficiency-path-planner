@@ -54,9 +54,15 @@
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
   --shadow-card: 0 1px 2px oklch(0.25 0.06 260 / 0.05), 0 4px 16px -6px oklch(0.25 0.06 260 / 0.08);
+  --color-google-auth-bg: var(--google-auth-bg);
+  --color-google-auth-border: var(--google-auth-border);
+  --color-google-auth-text: var(--google-auth-text);
 }
 
 :root {
+  --google-auth-bg: #FFFFFF;
+  --google-auth-border: #747775;
+  --google-auth-text: #1F1F1F;
   --radius: 0.75rem;
   --background: oklch(0.985 0.004 250);
   --foreground: oklch(0.24 0.06 262);
@@ -124,4 +130,11 @@
   body { background: white; }
   .print-full { margin: 0 !important; padding: 0 !important; max-width: none !important; }
   .card-surface { box-shadow: none; break-inside: avoid; }
+}
+
+.google-auth-button {
+  background: var(--google-auth-bg);
+  border-color: var(--google-auth-border);
+  color: var(--google-auth-text);
+  font-weight: 500;
 }
