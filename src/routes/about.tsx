@@ -2,7 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { PageHeader, Panel } from "@/components/app/shared";
 import { pageHead } from "@/lib/seo";
 
-export const Route = createFileRoute("/_shell/about")({
+export const Route = createFileRoute("/about")({
   head: () => pageHead("About Project", "Problem statement, objectives, methodology, technologies, limitations and future scope."),
   component: About,
 });

@@ -14,7 +14,7 @@ import { today, uid, useLookups, useStore } from "@/lib/store";
 import type { Level, Snapshot } from "@/lib/types";
 import { pageHead } from "@/lib/seo";
 
-export const Route = createFileRoute("/_shell/progress")({
+export const Route = createFileRoute("/_authenticated/_shell/progress")({
   head: () => pageHead("Progress Tracking", "Log learning activities, set goals and compare saved assessment snapshots over time."),
   component: ProgressPage,
 });

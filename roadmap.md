@@ -1,7 +1,8 @@
-# AI skill adviser
+# Student accounts and private saving
 
-- [x] Add a career-goals and skill-evidence form on Skill Assessment.
-- [x] Connect real AI Gateway suggestions with validation and useful error states.
-- [x] Let students select suggestions to assess without changing saved ratings automatically.
-- [x] Test suggestion rules and the real browser flow on desktop and mobile.
-- [x] Document the new feature and verify the app has no build errors.
+- [ ] Add email signup, login, password recovery, social sign-in and sign-out.
+- [ ] Save each student's name, avatar and private skill workspace in Cloud.
+- [ ] Protect all student pages and AI requests; keep public pages accessible.
+- [ ] Update reports and account controls to use the signed-in student's data.
+- [ ] Test two-account privacy, private saving, avatar uploads and session changes.
+- [ ] Update documentation and check tests and build status.

@@ -9,7 +9,7 @@ import { getGuide } from "@/lib/resources";
 import { uid, useLookups, useStore } from "@/lib/store";
 import { pageHead } from "@/lib/seo";
 
-export const Route = createFileRoute("/_shell/recommendations")({
+export const Route = createFileRoute("/_authenticated/_shell/recommendations")({
   head: () => pageHead("Recommendations", "Prioritised learning actions, practice tasks and free resources for your largest skill gaps."),
   component: RecPage,
 });

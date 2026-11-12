@@ -16,7 +16,7 @@ import type { CareerRole, Level } from "@/lib/types";
 import { cn } from "@/lib/utils";
 import { pageHead } from "@/lib/seo";
 
-export const Route = createFileRoute("/_shell/roles")({
+export const Route = createFileRoute("/_authenticated/_shell/roles")({
   head: () => pageHead("Target Career Roles", "Choose a target career role and edit its required skills and proficiency levels."),
   component: RolesPage,
 });

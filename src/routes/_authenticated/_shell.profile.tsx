@@ -12,7 +12,7 @@ import { useLookups, useStore } from "@/lib/store";
 import type { ProfileSkill } from "@/lib/types";
 import { pageHead } from "@/lib/seo";
 
-export const Route = createFileRoute("/_shell/profile")({
+export const Route = createFileRoute("/_authenticated/_shell/profile")({
   head: () => pageHead("My Skill Profile", "Add, edit, rate and remove the skills in your personal profile."),
   component: ProfilePage,
 });

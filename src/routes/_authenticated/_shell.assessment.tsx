@@ -14,7 +14,7 @@ import { LEVEL_DESCRIPTIONS, LEVEL_LABELS, LEVELS, type Level } from "@/lib/type
 import { cn } from "@/lib/utils";
 import { pageHead } from "@/lib/seo";
 
-export const Route = createFileRoute("/_shell/assessment")({
+export const Route = createFileRoute("/_authenticated/_shell/assessment")({
   head: () => pageHead("Skill Assessment", "Describe career goals and skill evidence for AI suggestions, then self-assess skills on a clear 1–5 scale."),
   component: AssessmentPage,
 });

@@ -10,124 +10,158 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
-import { Route as ShellRouteImport } from './routes/_shell'
-import { Route as ShellAboutRouteImport } from './routes/_shell.about'
-import { Route as ShellAssessmentRouteImport } from './routes/_shell.assessment'
-import { Route as ShellDashboardRouteImport } from './routes/_shell.dashboard'
-import { Route as ShellGapAnalysisRouteImport } from './routes/_shell.gap-analysis'
-import { Route as ShellProfileRouteImport } from './routes/_shell.profile'
-import { Route as ShellProgressRouteImport } from './routes/_shell.progress'
-import { Route as ShellRecommendationsRouteImport } from './routes/_shell.recommendations'
-import { Route as ShellReportsRouteImport } from './routes/_shell.reports'
-import { Route as ShellRolesRouteImport } from './routes/_shell.roles'
-import { Route as ShellTaxonomyRouteImport } from './routes/_shell.taxonomy'
+import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
+import { Route as AboutRouteImport } from './routes/about'
+import { Route as AuthRouteImport } from './routes/auth'
+import { Route as ResetPasswordRouteImport } from './routes/reset-password'
+import { Route as AuthenticatedShellRouteImport } from './routes/_authenticated/_shell'
+import { Route as AuthenticatedShellAssessmentRouteImport } from './routes/_authenticated/_shell.assessment'
+import { Route as AuthenticatedShellDashboardRouteImport } from './routes/_authenticated/_shell.dashboard'
+import { Route as AuthenticatedShellGapAnalysisRouteImport } from './routes/_authenticated/_shell.gap-analysis'
+import { Route as AuthenticatedShellProfileRouteImport } from './routes/_authenticated/_shell.profile'
+import { Route as AuthenticatedShellProgressRouteImport } from './routes/_authenticated/_shell.progress'
+import { Route as AuthenticatedShellRecommendationsRouteImport } from './routes/_authenticated/_shell.recommendations'
+import { Route as AuthenticatedShellReportsRouteImport } from './routes/_authenticated/_shell.reports'
+import { Route as AuthenticatedShellRolesRouteImport } from './routes/_authenticated/_shell.roles'
+import { Route as AuthenticatedShellTaxonomyRouteImport } from './routes/_authenticated/_shell.taxonomy'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const ShellRoute = ShellRouteImport.update({
-  id: '/_shell',
+const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
+  id: '/_authenticated',
   getParentRoute: () => rootRouteImport,
 } as any)
-const ShellAboutRoute = ShellAboutRouteImport.update({
+const AboutRoute = AboutRouteImport.update({
   id: '/about',
   path: '/about',
-  getParentRoute: () => ShellRoute,
+  getParentRoute: () => rootRouteImport,
 } as any)
-const ShellAssessmentRoute = ShellAssessmentRouteImport.update({
-  id: '/assessment',
-  path: '/assessment',
-  getParentRoute: () => ShellRoute,
+const AuthRoute = AuthRouteImport.update({
+  id: '/auth',
+  path: '/auth',
+  getParentRoute: () => rootRouteImport,
 } as any)
-const ShellDashboardRoute = ShellDashboardRouteImport.update({
-  id: '/dashboard',
-  path: '/dashboard',
-  getParentRoute: () => ShellRoute,
+const ResetPasswordRoute = ResetPasswordRouteImport.update({
+  id: '/reset-password',
+  path: '/reset-password',
+  getParentRoute: () => rootRouteImport,
 } as any)
-const ShellGapAnalysisRoute = ShellGapAnalysisRouteImport.update({
-  id: '/gap-analysis',
-  path: '/gap-analysis',
-  getParentRoute: () => ShellRoute,
+const AuthenticatedShellRoute = AuthenticatedShellRouteImport.update({
+  id: '/_shell',
+  getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
-const ShellProfileRoute = ShellProfileRouteImport.update({
-  id: '/profile',
-  path: '/profile',
-  getParentRoute: () => ShellRoute,
-} as any)
-const ShellProgressRoute = ShellProgressRouteImport.update({
-  id: '/progress',
-  path: '/progress',
-  getParentRoute: () => ShellRoute,
-} as any)
-const ShellRecommendationsRoute = ShellRecommendationsRouteImport.update({
-  id: '/recommendations',
-  path: '/recommendations',
-  getParentRoute: () => ShellRoute,
-} as any)
-const ShellReportsRoute = ShellReportsRouteImport.update({
-  id: '/reports',
-  path: '/reports',
-  getParentRoute: () => ShellRoute,
-} as any)
-const ShellRolesRoute = ShellRolesRouteImport.update({
+const AuthenticatedShellAssessmentRoute =
+  AuthenticatedShellAssessmentRouteImport.update({
+    id: '/assessment',
+    path: '/assessment',
+    getParentRoute: () => AuthenticatedShellRoute,
+  } as any)
+const AuthenticatedShellDashboardRoute =
+  AuthenticatedShellDashboardRouteImport.update({
+    id: '/dashboard',
+    path: '/dashboard',
+    getParentRoute: () => AuthenticatedShellRoute,
+  } as any)
+const AuthenticatedShellGapAnalysisRoute =
+  AuthenticatedShellGapAnalysisRouteImport.update({
+    id: '/gap-analysis',
+    path: '/gap-analysis',
+    getParentRoute: () => AuthenticatedShellRoute,
+  } as any)
+const AuthenticatedShellProfileRoute =
+  AuthenticatedShellProfileRouteImport.update({
+    id: '/profile',
+    path: '/profile',
+    getParentRoute: () => AuthenticatedShellRoute,
+  } as any)
+const AuthenticatedShellProgressRoute =
+  AuthenticatedShellProgressRouteImport.update({
+    id: '/progress',
+    path: '/progress',
+    getParentRoute: () => AuthenticatedShellRoute,
+  } as any)
+const AuthenticatedShellRecommendationsRoute =
+  AuthenticatedShellRecommendationsRouteImport.update({
+    id: '/recommendations',
+    path: '/recommendations',
+    getParentRoute: () => AuthenticatedShellRoute,
+  } as any)
+const AuthenticatedShellReportsRoute =
+  AuthenticatedShellReportsRouteImport.update({
+    id: '/reports',
+    path: '/reports',
+    getParentRoute: () => AuthenticatedShellRoute,
+  } as any)
+const AuthenticatedShellRolesRoute = AuthenticatedShellRolesRouteImport.update({
   id: '/roles',
   path: '/roles',
-  getParentRoute: () => ShellRoute,
+  getParentRoute: () => AuthenticatedShellRoute,
 } as any)
-const ShellTaxonomyRoute = ShellTaxonomyRouteImport.update({
-  id: '/taxonomy',
-  path: '/taxonomy',
-  getParentRoute: () => ShellRoute,
-} as any)
+const AuthenticatedShellTaxonomyRoute =
+  AuthenticatedShellTaxonomyRouteImport.update({
+    id: '/taxonomy',
+    path: '/taxonomy',
+    getParentRoute: () => AuthenticatedShellRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/about': typeof ShellAboutRoute
-  '/assessment': typeof ShellAssessmentRoute
-  '/dashboard': typeof ShellDashboardRoute
-  '/gap-analysis': typeof ShellGapAnalysisRoute
-  '/profile': typeof ShellProfileRoute
-  '/progress': typeof ShellProgressRoute
-  '/recommendations': typeof ShellRecommendationsRoute
-  '/reports': typeof ShellReportsRoute
-  '/roles': typeof ShellRolesRoute
-  '/taxonomy': typeof ShellTaxonomyRoute
+  '/about': typeof AboutRoute
+  '/auth': typeof AuthRoute
+  '/reset-password': typeof ResetPasswordRoute
+  '/assessment': typeof AuthenticatedShellAssessmentRoute
+  '/dashboard': typeof AuthenticatedShellDashboardRoute
+  '/gap-analysis': typeof AuthenticatedShellGapAnalysisRoute
+  '/profile': typeof AuthenticatedShellProfileRoute
+  '/progress': typeof AuthenticatedShellProgressRoute
+  '/recommendations': typeof AuthenticatedShellRecommendationsRoute
+  '/reports': typeof AuthenticatedShellReportsRoute
+  '/roles': typeof AuthenticatedShellRolesRoute
+  '/taxonomy': typeof AuthenticatedShellTaxonomyRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/about': typeof ShellAboutRoute
-  '/assessment': typeof ShellAssessmentRoute
-  '/dashboard': typeof ShellDashboardRoute
-  '/gap-analysis': typeof ShellGapAnalysisRoute
-  '/profile': typeof ShellProfileRoute
-  '/progress': typeof ShellProgressRoute
-  '/recommendations': typeof ShellRecommendationsRoute
-  '/reports': typeof ShellReportsRoute
-  '/roles': typeof ShellRolesRoute
-  '/taxonomy': typeof ShellTaxonomyRoute
+  '/about': typeof AboutRoute
+  '/auth': typeof AuthRoute
+  '/reset-password': typeof ResetPasswordRoute
+  '/assessment': typeof AuthenticatedShellAssessmentRoute
+  '/dashboard': typeof AuthenticatedShellDashboardRoute
+  '/gap-analysis': typeof AuthenticatedShellGapAnalysisRoute
+  '/profile': typeof AuthenticatedShellProfileRoute
+  '/progress': typeof AuthenticatedShellProgressRoute
+  '/recommendations': typeof AuthenticatedShellRecommendationsRoute
+  '/reports': typeof AuthenticatedShellReportsRoute
+  '/roles': typeof AuthenticatedShellRolesRoute
+  '/taxonomy': typeof AuthenticatedShellTaxonomyRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
-  '/_shell': typeof ShellRouteWithChildren
-  '/_shell/about': typeof ShellAboutRoute
-  '/_shell/assessment': typeof ShellAssessmentRoute
-  '/_shell/dashboard': typeof ShellDashboardRoute
-  '/_shell/gap-analysis': typeof ShellGapAnalysisRoute
-  '/_shell/profile': typeof ShellProfileRoute
-  '/_shell/progress': typeof ShellProgressRoute
-  '/_shell/recommendations': typeof ShellRecommendationsRoute
-  '/_shell/reports': typeof ShellReportsRoute
-  '/_shell/roles': typeof ShellRolesRoute
-  '/_shell/taxonomy': typeof ShellTaxonomyRoute
+  '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
+  '/about': typeof AboutRoute
+  '/auth': typeof AuthRoute
+  '/reset-password': typeof ResetPasswordRoute
+  '/_authenticated/_shell': typeof AuthenticatedShellRouteWithChildren
+  '/_authenticated/_shell/assessment': typeof AuthenticatedShellAssessmentRoute
+  '/_authenticated/_shell/dashboard': typeof AuthenticatedShellDashboardRoute
+  '/_authenticated/_shell/gap-analysis': typeof AuthenticatedShellGapAnalysisRoute
+  '/_authenticated/_shell/profile': typeof AuthenticatedShellProfileRoute
+  '/_authenticated/_shell/progress': typeof AuthenticatedShellProgressRoute
+  '/_authenticated/_shell/recommendations': typeof AuthenticatedShellRecommendationsRoute
+  '/_authenticated/_shell/reports': typeof AuthenticatedShellReportsRoute
+  '/_authenticated/_shell/roles': typeof AuthenticatedShellRolesRoute
+  '/_authenticated/_shell/taxonomy': typeof AuthenticatedShellTaxonomyRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
     | '/about'
+    | '/auth'
+    | '/reset-password'
     | '/assessment'
     | '/dashboard'
     | '/gap-analysis'
@@ -141,6 +175,8 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/about'
+    | '/auth'
+    | '/reset-password'
     | '/assessment'
     | '/dashboard'
     | '/gap-analysis'
@@ -153,22 +189,28 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
-    | '/_shell'
-    | '/_shell/about'
-    | '/_shell/assessment'
-    | '/_shell/dashboard'
-    | '/_shell/gap-analysis'
-    | '/_shell/profile'
-    | '/_shell/progress'
-    | '/_shell/recommendations'
-    | '/_shell/reports'
-    | '/_shell/roles'
-    | '/_shell/taxonomy'
+    | '/_authenticated'
+    | '/about'
+    | '/auth'
+    | '/reset-password'
+    | '/_authenticated/_shell'
+    | '/_authenticated/_shell/assessment'
+    | '/_authenticated/_shell/dashboard'
+    | '/_authenticated/_shell/gap-analysis'
+    | '/_authenticated/_shell/profile'
+    | '/_authenticated/_shell/progress'
+    | '/_authenticated/_shell/recommendations'
+    | '/_authenticated/_shell/reports'
+    | '/_authenticated/_shell/roles'
+    | '/_authenticated/_shell/taxonomy'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  ShellRoute: typeof ShellRouteWithChildren
+  AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
+  AboutRoute: typeof AboutRoute
+  AuthRoute: typeof AuthRoute
+  ResetPasswordRoute: typeof ResetPasswordRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -180,117 +222,152 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/_shell': {
-      id: '/_shell'
+    '/_authenticated': {
+      id: '/_authenticated'
       path: ''
       fullPath: '/'
-      preLoaderRoute: typeof ShellRouteImport
+      preLoaderRoute: typeof AuthenticatedRouteRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/_shell/about': {
-      id: '/_shell/about'
+    '/about': {
+      id: '/about'
       path: '/about'
       fullPath: '/about'
-      preLoaderRoute: typeof ShellAboutRouteImport
-      parentRoute: typeof ShellRoute
+      preLoaderRoute: typeof AboutRouteImport
+      parentRoute: typeof rootRouteImport
     }
-    '/_shell/assessment': {
-      id: '/_shell/assessment'
+    '/auth': {
+      id: '/auth'
+      path: '/auth'
+      fullPath: '/auth'
+      preLoaderRoute: typeof AuthRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/reset-password': {
+      id: '/reset-password'
+      path: '/reset-password'
+      fullPath: '/reset-password'
+      preLoaderRoute: typeof ResetPasswordRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_authenticated/_shell': {
+      id: '/_authenticated/_shell'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof AuthenticatedShellRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/_shell/assessment': {
+      id: '/_authenticated/_shell/assessment'
       path: '/assessment'
       fullPath: '/assessment'
-      preLoaderRoute: typeof ShellAssessmentRouteImport
-      parentRoute: typeof ShellRoute
+      preLoaderRoute: typeof AuthenticatedShellAssessmentRouteImport
+      parentRoute: typeof AuthenticatedShellRoute
     }
-    '/_shell/dashboard': {
-      id: '/_shell/dashboard'
+    '/_authenticated/_shell/dashboard': {
+      id: '/_authenticated/_shell/dashboard'
       path: '/dashboard'
       fullPath: '/dashboard'
-      preLoaderRoute: typeof ShellDashboardRouteImport
-      parentRoute: typeof ShellRoute
+      preLoaderRoute: typeof AuthenticatedShellDashboardRouteImport
+      parentRoute: typeof AuthenticatedShellRoute
     }
-    '/_shell/gap-analysis': {
-      id: '/_shell/gap-analysis'
+    '/_authenticated/_shell/gap-analysis': {
+      id: '/_authenticated/_shell/gap-analysis'
       path: '/gap-analysis'
       fullPath: '/gap-analysis'
-      preLoaderRoute: typeof ShellGapAnalysisRouteImport
-      parentRoute: typeof ShellRoute
+      preLoaderRoute: typeof AuthenticatedShellGapAnalysisRouteImport
+      parentRoute: typeof AuthenticatedShellRoute
     }
-    '/_shell/profile': {
-      id: '/_shell/profile'
+    '/_authenticated/_shell/profile': {
+      id: '/_authenticated/_shell/profile'
       path: '/profile'
       fullPath: '/profile'
-      preLoaderRoute: typeof ShellProfileRouteImport
-      parentRoute: typeof ShellRoute
+      preLoaderRoute: typeof AuthenticatedShellProfileRouteImport
+      parentRoute: typeof AuthenticatedShellRoute
     }
-    '/_shell/progress': {
-      id: '/_shell/progress'
+    '/_authenticated/_shell/progress': {
+      id: '/_authenticated/_shell/progress'
       path: '/progress'
       fullPath: '/progress'
-      preLoaderRoute: typeof ShellProgressRouteImport
-      parentRoute: typeof ShellRoute
+      preLoaderRoute: typeof AuthenticatedShellProgressRouteImport
+      parentRoute: typeof AuthenticatedShellRoute
     }
-    '/_shell/recommendations': {
-      id: '/_shell/recommendations'
+    '/_authenticated/_shell/recommendations': {
+      id: '/_authenticated/_shell/recommendations'
       path: '/recommendations'
       fullPath: '/recommendations'
-      preLoaderRoute: typeof ShellRecommendationsRouteImport
-      parentRoute: typeof ShellRoute
+      preLoaderRoute: typeof AuthenticatedShellRecommendationsRouteImport
+      parentRoute: typeof AuthenticatedShellRoute
     }
-    '/_shell/reports': {
-      id: '/_shell/reports'
+    '/_authenticated/_shell/reports': {
+      id: '/_authenticated/_shell/reports'
       path: '/reports'
       fullPath: '/reports'
-      preLoaderRoute: typeof ShellReportsRouteImport
-      parentRoute: typeof ShellRoute
+      preLoaderRoute: typeof AuthenticatedShellReportsRouteImport
+      parentRoute: typeof AuthenticatedShellRoute
     }
-    '/_shell/roles': {
-      id: '/_shell/roles'
+    '/_authenticated/_shell/roles': {
+      id: '/_authenticated/_shell/roles'
       path: '/roles'
       fullPath: '/roles'
-      preLoaderRoute: typeof ShellRolesRouteImport
-      parentRoute: typeof ShellRoute
+      preLoaderRoute: typeof AuthenticatedShellRolesRouteImport
+      parentRoute: typeof AuthenticatedShellRoute
     }
-    '/_shell/taxonomy': {
-      id: '/_shell/taxonomy'
+    '/_authenticated/_shell/taxonomy': {
+      id: '/_authenticated/_shell/taxonomy'
       path: '/taxonomy'
       fullPath: '/taxonomy'
-      preLoaderRoute: typeof ShellTaxonomyRouteImport
-      parentRoute: typeof ShellRoute
+      preLoaderRoute: typeof AuthenticatedShellTaxonomyRouteImport
+      parentRoute: typeof AuthenticatedShellRoute
     }
   }
 }
 
-interface ShellRouteChildren {
-  ShellAboutRoute: typeof ShellAboutRoute
-  ShellAssessmentRoute: typeof ShellAssessmentRoute
-  ShellDashboardRoute: typeof ShellDashboardRoute
-  ShellGapAnalysisRoute: typeof ShellGapAnalysisRoute
-  ShellProfileRoute: typeof ShellProfileRoute
-  ShellProgressRoute: typeof ShellProgressRoute
-  ShellRecommendationsRoute: typeof ShellRecommendationsRoute
-  ShellReportsRoute: typeof ShellReportsRoute
-  ShellRolesRoute: typeof ShellRolesRoute
-  ShellTaxonomyRoute: typeof ShellTaxonomyRoute
+interface AuthenticatedShellRouteChildren {
+  AuthenticatedShellAssessmentRoute: typeof AuthenticatedShellAssessmentRoute
+  AuthenticatedShellDashboardRoute: typeof AuthenticatedShellDashboardRoute
+  AuthenticatedShellGapAnalysisRoute: typeof AuthenticatedShellGapAnalysisRoute
+  AuthenticatedShellProfileRoute: typeof AuthenticatedShellProfileRoute
+  AuthenticatedShellProgressRoute: typeof AuthenticatedShellProgressRoute
+  AuthenticatedShellRecommendationsRoute: typeof AuthenticatedShellRecommendationsRoute
+  AuthenticatedShellReportsRoute: typeof AuthenticatedShellReportsRoute
+  AuthenticatedShellRolesRoute: typeof AuthenticatedShellRolesRoute
+  AuthenticatedShellTaxonomyRoute: typeof AuthenticatedShellTaxonomyRoute
 }
 
-const ShellRouteChildren: ShellRouteChildren = {
-  ShellAboutRoute: ShellAboutRoute,
-  ShellAssessmentRoute: ShellAssessmentRoute,
-  ShellDashboardRoute: ShellDashboardRoute,
-  ShellGapAnalysisRoute: ShellGapAnalysisRoute,
-  ShellProfileRoute: ShellProfileRoute,
-  ShellProgressRoute: ShellProgressRoute,
-  ShellRecommendationsRoute: ShellRecommendationsRoute,
-  ShellReportsRoute: ShellReportsRoute,
-  ShellRolesRoute: ShellRolesRoute,
-  ShellTaxonomyRoute: ShellTaxonomyRoute,
+const AuthenticatedShellRouteChildren: AuthenticatedShellRouteChildren = {
+  AuthenticatedShellAssessmentRoute: AuthenticatedShellAssessmentRoute,
+  AuthenticatedShellDashboardRoute: AuthenticatedShellDashboardRoute,
+  AuthenticatedShellGapAnalysisRoute: AuthenticatedShellGapAnalysisRoute,
+  AuthenticatedShellProfileRoute: AuthenticatedShellProfileRoute,
+  AuthenticatedShellProgressRoute: AuthenticatedShellProgressRoute,
+  AuthenticatedShellRecommendationsRoute:
+    AuthenticatedShellRecommendationsRoute,
+  AuthenticatedShellReportsRoute: AuthenticatedShellReportsRoute,
+  AuthenticatedShellRolesRoute: AuthenticatedShellRolesRoute,
+  AuthenticatedShellTaxonomyRoute: AuthenticatedShellTaxonomyRoute,
 }
 
-const ShellRouteWithChildren = ShellRoute._addFileChildren(ShellRouteChildren)
+const AuthenticatedShellRouteWithChildren =
+  AuthenticatedShellRoute._addFileChildren(AuthenticatedShellRouteChildren)
+
+interface AuthenticatedRouteRouteChildren {
+  AuthenticatedShellRoute: typeof AuthenticatedShellRouteWithChildren
+}
+
+const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
+  AuthenticatedShellRoute: AuthenticatedShellRouteWithChildren,
+}
+
+const AuthenticatedRouteRouteWithChildren =
+  AuthenticatedRouteRoute._addFileChildren(AuthenticatedRouteRouteChildren)
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  ShellRoute: ShellRouteWithChildren,
+  AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
+  AboutRoute: AboutRoute,
+  AuthRoute: AuthRoute,
+  ResetPasswordRoute: ResetPasswordRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

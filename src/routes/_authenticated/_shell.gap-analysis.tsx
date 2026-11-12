@@ -8,7 +8,7 @@ import { analyzeRole, type GapRow } from "@/lib/calc";
 import { useLookups, useStore } from "@/lib/store";
 import { pageHead } from "@/lib/seo";
 
-export const Route = createFileRoute("/_shell/gap-analysis")({
+export const Route = createFileRoute("/_authenticated/_shell/gap-analysis")({
   head: () => pageHead("Gap Analysis", "Compare current and required skill levels with transparent gap, coverage and readiness formulas."),
   component: GapPage,
 });
