@@ -15,7 +15,7 @@ import { cn } from "@/lib/utils";
 import { pageHead } from "@/lib/seo";
 
 export const Route = createFileRoute("/_shell/assessment")({
-  head: () => pageHead("Skill Assessment", "Self-assess your skills on a 1–5 scale with clear level descriptions."),
+  head: () => pageHead("Skill Assessment", "Describe career goals and skill evidence for AI suggestions, then self-assess skills on a clear 1–5 scale."),
   component: AssessmentPage,
 });
 
@@ -75,7 +75,7 @@ function AssessmentPage() {
 
       <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
         <Tabs value={scope} onValueChange={(v) => setScope(v as "role" | "all" | "ai")}>
-          <TabsList>
+          <TabsList className="h-auto flex-wrap justify-start">
             <TabsTrigger value="role">Target role skills</TabsTrigger>
             {aiSkillIds.length > 0 && <TabsTrigger value="ai">AI suggested ({aiSkillIds.length})</TabsTrigger>}
             <TabsTrigger value="all">All skills ({data.skills.length})</TabsTrigger>
