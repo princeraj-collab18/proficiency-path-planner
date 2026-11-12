@@ -71,7 +71,7 @@ function ReportsPage() {
           <ul className="space-y-1 text-sm">
             <li>Learning activities: {data.activities.length} ({data.activities.reduce((a, x) => a + x.hours, 0)} hours)</li>
             <li>Goals completed: {data.goals.filter((g) => g.done).length} / {data.goals.length}</li>
-            <li>Snapshots saved: {data.snapshots.length}{data.snapshots.length ? ` (latest: ${data.snapshots[data.snapshots.length - 1].label})` : ""}</li>
+            <li>Snapshots saved: {data.snapshots.length}{data.snapshots.at(-1) ? ` (latest: ${data.snapshots.at(-1)?.label})` : ""}</li>
           </ul>
         </Panel>
       </article>
