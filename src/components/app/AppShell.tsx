@@ -1,23 +1,21 @@
 // Layout for all app pages: left sidebar on desktop, slide-out menu on mobile.
 import { useState, type ReactNode } from "react";
-import { Link, useRouterState } from "@tanstack/react-router";
+import { Link, useNavigate, useRouterState } from "@tanstack/react-router";
 import {
   BarChart3, BookOpen, ClipboardCheck, FileText, Info, LayoutDashboard, Lightbulb, Menu,
-  RotateCcw, Tags, Target, TrendingUp, UserRound, GraduationCap, AlertTriangle,
+  Tags, Target, TrendingUp, UserRound, GraduationCap, AlertTriangle, Compass, LogOut, Cloud,
 } from "lucide-react";
 import { toast } from "sonner";
 import { Sheet, SheetContent, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
-import {
-  AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription,
-  AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger,
-} from "@/components/ui/alert-dialog";
 import { useStore } from "@/lib/store";
+import { supabase } from "@/integrations/supabase/client";
 import { cn } from "@/lib/utils";
 
 export const NAV = [
   { to: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
   { to: "/profile", label: "My Skill Profile", icon: UserRound },
+  { to: "/career-goals", label: "Career Goals", icon: Compass },
   { to: "/roles", label: "Target Career Roles", icon: Target },
   { to: "/assessment", label: "Skill Assessment", icon: ClipboardCheck },
   { to: "/gap-analysis", label: "Gap Analysis", icon: BarChart3 },
@@ -70,32 +68,27 @@ function Brand() {
 }
 
 function SidebarFooter() {
-  const { reset } = useStore();
+  const { saving, loadError, retrySave, flush } = useStore();
+  const navigate = useNavigate();
+  const [signingOut, setSigningOut] = useState(false);
+  async function signOut() {
+    setSigningOut(true);
+    try {
+      await flush();
+      const { error } = await supabase.auth.signOut();
+      if (error) throw error;
+      await navigate({ to: "/auth", search: { next: "/dashboard" }, replace: true });
+    } catch { toast.error("Your data must be saved before signing out. Please retry."); }
+    finally { setSigningOut(false); }
+  }
   return (
     <div className="mt-auto space-y-3 border-t pt-4">
       <p className="px-2 text-xs text-muted-foreground">
-        <BookOpen className="mr-1 inline h-3 w-3" aria-hidden />
-        Demo mode: data is saved only in this browser (localStorage).
+        <Cloud className="mr-1 inline h-3 w-3" aria-hidden />
+        {loadError ? "Changes are not saved yet." : saving ? "Saving to your account…" : "Private student account · Cloud saving"}
       </p>
-      <AlertDialog>
-        <AlertDialogTrigger asChild>
-          <Button variant="outline" size="sm" className="w-full">
-            <RotateCcw className="h-3.5 w-3.5" /> Reset sample data
-          </Button>
-        </AlertDialogTrigger>
-        <AlertDialogContent>
-          <AlertDialogHeader>
-            <AlertDialogTitle>Reset all data?</AlertDialogTitle>
-            <AlertDialogDescription>
-              This replaces everything you have entered with the original sample data. It cannot be undone.
-            </AlertDialogDescription>
-          </AlertDialogHeader>
-          <AlertDialogFooter>
-            <AlertDialogCancel>Cancel</AlertDialogCancel>
-            <AlertDialogAction onClick={() => { reset(); toast.success("Sample data restored"); }}>Reset</AlertDialogAction>
-          </AlertDialogFooter>
-        </AlertDialogContent>
-      </AlertDialog>
+      {loadError && <Button variant="outline" size="sm" className="w-full" disabled={saving} onClick={retrySave}>Retry saving</Button>}
+      <Button variant="outline" size="sm" className="w-full" disabled={signingOut || saving} onClick={() => void signOut()}><LogOut className="h-3.5 w-3.5" />{signingOut ? "Signing out…" : "Sign out"}</Button>
     </div>
   );
 }
@@ -105,7 +98,7 @@ export function AppShell({ children }: { children: ReactNode }) {
   const { ready, loadError } = useStore();
   return (
     <div className="flex min-h-screen w-full">
-      <aside className="no-print sticky top-0 hidden h-screen w-64 shrink-0 flex-col gap-6 border-r bg-sidebar p-4 lg:flex">
+      <aside className="no-print sticky top-0 hidden h-screen w-64 shrink-0 flex-col gap-6 overflow-y-auto border-r bg-sidebar p-4 lg:flex">
         <Brand />
         <NavList />
         <SidebarFooter />

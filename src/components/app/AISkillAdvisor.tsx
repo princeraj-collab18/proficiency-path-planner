@@ -15,7 +15,7 @@ export function AISkillAdvisor({ onFocusSkills }: { onFocusSkills: (ids: string[
   const { data } = useStore();
   const { catById, selectedRole } = useLookups();
   const suggest = useServerFn(suggestSkillsToAssess);
-  const [goals, setGoals] = useState("");
+  const [goals, setGoals] = useState(() => [data.careerGoals?.longTermGoals, data.careerGoals?.interests].filter(Boolean).join("\n").slice(0, 1500));
   const [evidence, setEvidence] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);

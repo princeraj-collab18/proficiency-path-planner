@@ -14,4 +14,10 @@ describe("App routing", () => {
 
     expect(matches.at(-1)?.routeId).not.toBe(rootRouteId);
   });
+  it("puts Career Goals inside the authenticated student shell", () => {
+    const router = createRouter({ routeTree, context: { queryClient: new QueryClient() } });
+    const matches = router.matchRoutes("/career-goals");
+    expect(matches.at(-1)?.routeId).toBe("/_authenticated/_shell/career-goals");
+    expect(matches.map((match) => match.routeId)).toContain("/_authenticated");
+  });
 });
