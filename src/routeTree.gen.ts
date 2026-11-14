@@ -16,6 +16,7 @@ import { Route as AuthRouteImport } from './routes/auth'
 import { Route as ResetPasswordRouteImport } from './routes/reset-password'
 import { Route as AuthenticatedShellRouteImport } from './routes/_authenticated/_shell'
 import { Route as AuthenticatedShellAssessmentRouteImport } from './routes/_authenticated/_shell.assessment'
+import { Route as AuthenticatedShellCareerGoalsRouteImport } from './routes/_authenticated/_shell.career-goals'
 import { Route as AuthenticatedShellDashboardRouteImport } from './routes/_authenticated/_shell.dashboard'
 import { Route as AuthenticatedShellGapAnalysisRouteImport } from './routes/_authenticated/_shell.gap-analysis'
 import { Route as AuthenticatedShellProfileRouteImport } from './routes/_authenticated/_shell.profile'
@@ -57,6 +58,12 @@ const AuthenticatedShellAssessmentRoute =
   AuthenticatedShellAssessmentRouteImport.update({
     id: '/assessment',
     path: '/assessment',
+    getParentRoute: () => AuthenticatedShellRoute,
+  } as any)
+const AuthenticatedShellCareerGoalsRoute =
+  AuthenticatedShellCareerGoalsRouteImport.update({
+    id: '/career-goals',
+    path: '/career-goals',
     getParentRoute: () => AuthenticatedShellRoute,
   } as any)
 const AuthenticatedShellDashboardRoute =
@@ -113,6 +120,7 @@ export interface FileRoutesByFullPath {
   '/auth': typeof AuthRoute
   '/reset-password': typeof ResetPasswordRoute
   '/assessment': typeof AuthenticatedShellAssessmentRoute
+  '/career-goals': typeof AuthenticatedShellCareerGoalsRoute
   '/dashboard': typeof AuthenticatedShellDashboardRoute
   '/gap-analysis': typeof AuthenticatedShellGapAnalysisRoute
   '/profile': typeof AuthenticatedShellProfileRoute
@@ -128,6 +136,7 @@ export interface FileRoutesByTo {
   '/auth': typeof AuthRoute
   '/reset-password': typeof ResetPasswordRoute
   '/assessment': typeof AuthenticatedShellAssessmentRoute
+  '/career-goals': typeof AuthenticatedShellCareerGoalsRoute
   '/dashboard': typeof AuthenticatedShellDashboardRoute
   '/gap-analysis': typeof AuthenticatedShellGapAnalysisRoute
   '/profile': typeof AuthenticatedShellProfileRoute
@@ -146,6 +155,7 @@ export interface FileRoutesById {
   '/reset-password': typeof ResetPasswordRoute
   '/_authenticated/_shell': typeof AuthenticatedShellRouteWithChildren
   '/_authenticated/_shell/assessment': typeof AuthenticatedShellAssessmentRoute
+  '/_authenticated/_shell/career-goals': typeof AuthenticatedShellCareerGoalsRoute
   '/_authenticated/_shell/dashboard': typeof AuthenticatedShellDashboardRoute
   '/_authenticated/_shell/gap-analysis': typeof AuthenticatedShellGapAnalysisRoute
   '/_authenticated/_shell/profile': typeof AuthenticatedShellProfileRoute
@@ -163,6 +173,7 @@ export interface FileRouteTypes {
     | '/auth'
     | '/reset-password'
     | '/assessment'
+    | '/career-goals'
     | '/dashboard'
     | '/gap-analysis'
     | '/profile'
@@ -178,6 +189,7 @@ export interface FileRouteTypes {
     | '/auth'
     | '/reset-password'
     | '/assessment'
+    | '/career-goals'
     | '/dashboard'
     | '/gap-analysis'
     | '/profile'
@@ -195,6 +207,7 @@ export interface FileRouteTypes {
     | '/reset-password'
     | '/_authenticated/_shell'
     | '/_authenticated/_shell/assessment'
+    | '/_authenticated/_shell/career-goals'
     | '/_authenticated/_shell/dashboard'
     | '/_authenticated/_shell/gap-analysis'
     | '/_authenticated/_shell/profile'
@@ -264,6 +277,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedShellAssessmentRouteImport
       parentRoute: typeof AuthenticatedShellRoute
     }
+    '/_authenticated/_shell/career-goals': {
+      id: '/_authenticated/_shell/career-goals'
+      path: '/career-goals'
+      fullPath: '/career-goals'
+      preLoaderRoute: typeof AuthenticatedShellCareerGoalsRouteImport
+      parentRoute: typeof AuthenticatedShellRoute
+    }
     '/_authenticated/_shell/dashboard': {
       id: '/_authenticated/_shell/dashboard'
       path: '/dashboard'
@@ -325,6 +345,7 @@ declare module '@tanstack/react-router' {
 
 interface AuthenticatedShellRouteChildren {
   AuthenticatedShellAssessmentRoute: typeof AuthenticatedShellAssessmentRoute
+  AuthenticatedShellCareerGoalsRoute: typeof AuthenticatedShellCareerGoalsRoute
   AuthenticatedShellDashboardRoute: typeof AuthenticatedShellDashboardRoute
   AuthenticatedShellGapAnalysisRoute: typeof AuthenticatedShellGapAnalysisRoute
   AuthenticatedShellProfileRoute: typeof AuthenticatedShellProfileRoute
@@ -337,6 +358,7 @@ interface AuthenticatedShellRouteChildren {
 
 const AuthenticatedShellRouteChildren: AuthenticatedShellRouteChildren = {
   AuthenticatedShellAssessmentRoute: AuthenticatedShellAssessmentRoute,
+  AuthenticatedShellCareerGoalsRoute: AuthenticatedShellCareerGoalsRoute,
   AuthenticatedShellDashboardRoute: AuthenticatedShellDashboardRoute,
   AuthenticatedShellGapAnalysisRoute: AuthenticatedShellGapAnalysisRoute,
   AuthenticatedShellProfileRoute: AuthenticatedShellProfileRoute,

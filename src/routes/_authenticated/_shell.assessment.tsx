@@ -1,6 +1,7 @@
 // Self-assessment form: rate every skill (or just the target role's skills) in one place.
 import { useEffect, useMemo, useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
+import { z } from "zod";
 import { Save, Undo2 } from "lucide-react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
@@ -15,6 +16,7 @@ import { cn } from "@/lib/utils";
 import { pageHead } from "@/lib/seo";
 
 export const Route = createFileRoute("/_authenticated/_shell/assessment")({
+  validateSearch: z.object({ skills: z.string().max(120999).optional() }),
   head: () => pageHead("Skill Assessment", "Describe career goals and skill evidence for AI suggestions, then self-assess skills on a clear 1–5 scale."),
   component: AssessmentPage,
 });
@@ -22,17 +24,20 @@ export const Route = createFileRoute("/_authenticated/_shell/assessment")({
 function AssessmentPage() {
   const { data, update } = useStore();
   const { selectedRole, catById } = useLookups();
-  const [scope, setScope] = useState<"role" | "all" | "ai">("role");
+  const { skills: searchSkills } = Route.useSearch();
+  const goalSkillIds = useMemo(() => new Set(searchSkills?.split(",").filter((id) => data.skills.some((skill) => skill.id === id)) ?? []), [searchSkills, data.skills]);
+  const [scope, setScope] = useState<"role" | "all" | "ai" | "goals">(goalSkillIds.size ? "goals" : "role");
   const [aiSkillIds, setAiSkillIds] = useState<string[]>([]);
   const saved = useMemo(() => Object.fromEntries(data.profile.map((p) => [p.skillId, p.level])) as Record<string, Level>, [data.profile]);
   const [answers, setAnswers] = useState<Record<string, Level | null>>({});
 
   useEffect(() => setAnswers(saved), [saved]);
+  useEffect(() => { if (searchSkills && goalSkillIds.size) setScope("goals"); }, [searchSkills, goalSkillIds]);
 
   const skills = useMemo(() => {
-    const ids = scope === "ai" ? new Set(aiSkillIds) : scope === "role" && selectedRole ? new Set(selectedRole.requirements.map((r) => r.skillId)) : null;
+    const ids = scope === "goals" ? goalSkillIds : scope === "ai" ? new Set(aiSkillIds) : scope === "role" && selectedRole ? new Set(selectedRole.requirements.map((r) => r.skillId)) : null;
     return data.skills.filter((s) => !ids || ids.has(s.id)).sort((a, b) => a.categoryId.localeCompare(b.categoryId) || a.name.localeCompare(b.name));
-  }, [aiSkillIds, data.skills, scope, selectedRole]);
+  }, [aiSkillIds, goalSkillIds, data.skills, scope, selectedRole]);
 
   const changed = Object.keys({ ...answers, ...saved }).filter((k) => (answers[k] ?? null) !== (saved[k] ?? null));
 
@@ -74,9 +79,10 @@ function AssessmentPage() {
       </Panel>
 
       <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
-        <Tabs value={scope} onValueChange={(v) => setScope(v as "role" | "all" | "ai")}>
+        <Tabs value={scope} onValueChange={(v) => setScope(v as "role" | "all" | "ai" | "goals")}>
           <TabsList className="h-auto flex-wrap justify-start">
             <TabsTrigger value="role">Target role skills</TabsTrigger>
+            {goalSkillIds.size > 0 && <TabsTrigger value="goals">Career goal skills ({goalSkillIds.size})</TabsTrigger>}
             {aiSkillIds.length > 0 && <TabsTrigger value="ai">AI suggested ({aiSkillIds.length})</TabsTrigger>}
             <TabsTrigger value="all">All skills ({data.skills.length})</TabsTrigger>
           </TabsList>

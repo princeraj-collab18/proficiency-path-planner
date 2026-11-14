@@ -10,3 +10,5 @@
 <!-- LOVABLE:END -->
 
 - AI skill suggestions run only in a TanStack server function and are filtered against the app's existing skill IDs before display; this keeps credentials server-side and prevents invented skills.
+- Career goals live in the owner-scoped workspace with backward-compatible validation; pure catalogue matching uses current roles and skills without assigning proficiency or calling AI.
+- Career Goals passes existing skill IDs through optional assessment search state so students can assess suggested skills without modifying ratings or role requirements.
