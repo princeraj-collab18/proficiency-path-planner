@@ -1,6 +1,7 @@
 // One complete workspace per student; starter career roles have no demo ratings.
 import { z } from "zod";
 import { createSampleData } from "./sample-data";
+import { careerGoalsSchema, emptyCareerGoals } from "./career-goals";
 import type { AppData } from "./types";
 
 const id = z.string().min(1).max(120);
@@ -14,6 +15,7 @@ export const appDataSchema = z.object({
   profile: z.array(z.object({ skillId: id, level, notes: z.string().max(5000).optional(), assessedAt: date })).max(1000),
   roles: z.array(z.object({ id, name: z.string().min(1).max(200), description: z.string().max(10000), requirements: z.array(z.object({ skillId: id, level })).max(1000) })).max(300),
   selectedRoleId: id.nullable(),
+  careerGoals: careerGoalsSchema.optional(),
   activities: z.array(z.object({ id, title: z.string().max(1000), skillId: id.optional(), date, hours: z.number().finite().positive().max(200), notes: z.string().max(10000).optional() })).max(5000),
   goals: z.array(z.object({ id, skillId: id, targetLevel: level, dueDate: date.optional(), done: z.boolean() })).max(5000),
   snapshots: z.array(z.object({ id, label: z.string().max(1000), date, roleId: id.nullable(), levels: z.record(level) })).max(1000),
@@ -22,7 +24,7 @@ export const appDataSchema = z.object({
 
 export function createStudentData(): AppData {
   const defaults = createSampleData();
-  return { ...defaults, profile: [], activities: [], goals: [], snapshots: [], log: [] };
+  return { ...defaults, careerGoals: emptyCareerGoals(), profile: [], activities: [], goals: [], snapshots: [], log: [] };
 }
 
 export function ownsStudentData(ownerId: string, authenticatedUserId: string): boolean {
