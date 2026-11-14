@@ -68,6 +68,12 @@ export interface LogEntry {
   text: string;
 }
 
+export interface CareerGoals {
+  longTermGoals: string;
+  interests: string;
+  categoryIds: string[];
+}
+
 export interface AppData {
   version: 1;
   categories: Category[];
@@ -75,6 +81,7 @@ export interface AppData {
   profile: ProfileSkill[];
   roles: CareerRole[];
   selectedRoleId: string | null;
+  careerGoals?: CareerGoals;
   activities: LearningActivity[];
   goals: LearningGoal[];
   snapshots: Snapshot[];
