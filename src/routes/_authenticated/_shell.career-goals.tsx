@@ -17,7 +17,7 @@ export const Route = createFileRoute("/_authenticated/_shell/career-goals")({
 });
 
 function CareerGoalsPage() {
-  const { data, update, flush, saving } = useStore();
+  const { data, update, flush, saving, loadError } = useStore();
   const { catById } = useLookups();
   const saved = data.careerGoals ?? emptyCareerGoals();
   const [draft, setDraft] = useState(saved);
@@ -74,7 +74,7 @@ function CareerGoalsPage() {
       <div className="mt-5 flex flex-wrap items-center gap-3">
         <Button type="submit" disabled={busy || saving}>{busy ? <Loader2 className="animate-spin" /> : <Save />}{busy ? "Saving…" : "Save career goals"}</Button>
         {dirty && <Button type="button" variant="outline" disabled={busy} onClick={() => { setDraft(saved); setError(""); }}><Undo2 /> Discard changes</Button>}
-        <span role="status" className="text-xs text-muted-foreground">{dirty ? "Unsaved changes" : saving ? "Saving…" : hasGoals ? "Saved to your student account" : "No goals saved yet"}</span>
+        <span role="status" className="text-xs text-muted-foreground">{loadError || error ? "Changes are not saved yet" : dirty ? "Unsaved changes" : saving ? "Saving…" : hasGoals ? "Saved to your student account" : "No goals saved yet"}</span>
       </div>
     </form>
 
