@@ -40,7 +40,7 @@ function NavList({ onNavigate }: { onNavigate?: () => void }) {
             aria-current={active ? "page" : undefined}
             className={cn(
               "flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
-              active ? "bg-sidebar-accent text-sidebar-accent-foreground" : "text-sidebar-foreground hover:bg-muted",
+              active ? "bg-sidebar-accent text-sidebar-accent-foreground" : "text-sidebar-foreground hover:bg-sidebar-accent/15",
             )}
           >
             <item.icon className="h-4 w-4" aria-hidden />
@@ -54,14 +54,14 @@ function NavList({ onNavigate }: { onNavigate?: () => void }) {
 
 function Brand() {
   return (
-    <Link to="/" className="flex items-center gap-2 px-2">
-      <span className="grid h-8 w-8 place-items-center rounded-lg bg-primary text-primary-foreground">
+    <Link to="/" className="flex items-center gap-2 px-2 text-sidebar-foreground">
+      <span className="grid h-8 w-8 place-items-center rounded-lg bg-sidebar-primary text-sidebar-primary-foreground">
         <GraduationCap className="h-4 w-4" aria-hidden />
       </span>
       <span className="text-sm font-bold leading-tight">
         Skill Gap
         <br />
-        <span className="font-medium text-muted-foreground">Analyzer</span>
+        <span className="font-medium text-sidebar-foreground/75">Analyzer</span>
       </span>
     </Link>
   );
@@ -82,13 +82,13 @@ function SidebarFooter() {
     finally { setSigningOut(false); }
   }
   return (
-    <div className="mt-auto space-y-3 border-t pt-4">
-      <p className="px-2 text-xs text-muted-foreground">
+    <div className="mt-auto space-y-3 border-t border-sidebar-border pt-4">
+      <p className="px-2 text-xs text-sidebar-foreground/80">
         <Cloud className="mr-1 inline h-3 w-3" aria-hidden />
         {loadError ? "Changes are not saved yet." : saving ? "Saving to your account…" : "Private student account · Cloud saving"}
       </p>
-      {loadError && <Button variant="outline" size="sm" className="w-full" disabled={saving} onClick={retrySave}>Retry saving</Button>}
-      <Button variant="outline" size="sm" className="w-full" disabled={signingOut || saving} onClick={() => void signOut()}><LogOut className="h-3.5 w-3.5" />{signingOut ? "Signing out…" : "Sign out"}</Button>
+      {loadError && <Button variant="sidebar" size="sm" className="w-full" disabled={saving} onClick={retrySave}>Retry saving</Button>}
+      <Button variant="sidebar" size="sm" className="w-full" disabled={signingOut || saving} onClick={() => void signOut()}><LogOut className="h-3.5 w-3.5" />{signingOut ? "Signing out…" : "Sign out"}</Button>
     </div>
   );
 }
@@ -98,21 +98,21 @@ export function AppShell({ children }: { children: ReactNode }) {
   const { ready, loadError } = useStore();
   return (
     <div className="flex min-h-screen w-full">
-      <aside className="no-print sticky top-0 hidden h-screen w-64 shrink-0 flex-col gap-6 overflow-y-auto border-r bg-sidebar p-4 lg:flex">
+      <aside className="no-print sticky top-0 hidden h-screen w-64 shrink-0 flex-col gap-6 overflow-y-auto border-r border-sidebar-border bg-sidebar p-4 lg:flex">
         <Brand />
         <NavList />
         <SidebarFooter />
       </aside>
       <div className="flex min-w-0 flex-1 flex-col">
-        <header className="no-print sticky top-0 z-20 flex h-14 items-center justify-between border-b bg-card/95 px-4 backdrop-blur lg:hidden">
+        <header className="no-print sticky top-0 z-20 flex h-14 items-center justify-between border-b border-sidebar-border bg-sidebar px-4 text-sidebar-foreground lg:hidden">
           <Brand />
           <Sheet open={open} onOpenChange={setOpen}>
             <SheetTrigger asChild>
-              <Button variant="outline" size="icon" aria-label="Open menu">
+              <Button variant="sidebar" size="icon" aria-label="Open menu">
                 <Menu className="h-5 w-5" />
               </Button>
             </SheetTrigger>
-            <SheetContent side="left" className="flex w-72 flex-col gap-6 overflow-y-auto p-4">
+            <SheetContent side="left" className="flex w-72 flex-col gap-6 overflow-y-auto border-sidebar-border bg-sidebar p-4 text-sidebar-foreground">
               <SheetTitle className="sr-only">Navigation</SheetTitle>
               <Brand />
               <NavList onNavigate={() => setOpen(false)} />

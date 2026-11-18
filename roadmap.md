@@ -1,4 +1,10 @@
-# Career Goals and student accounts
+# Current requests
+
+- [x] Provide readable HTML, CSS and JavaScript source files for the syllabus edition.
+- [x] Apply a brighter blue, teal and coral theme to the website without changing its behaviour.
+- [x] Verify the themed home page and student pages on desktop and mobile.
+
+## Career Goals
 
 - [x] Add a private Career Goals page with long-term goals and career interests.
 - [x] Match saved goals to current roles and skills; allow choosing a target and assessing skills.

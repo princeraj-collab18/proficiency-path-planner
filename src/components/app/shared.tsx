@@ -8,8 +8,8 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 
 export function PageHeader({ title, description, actions }: { title: string; description?: string; actions?: ReactNode }) {
   return (
-    <div className="mb-6 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
-      <div>
+    <div className="mb-7 flex flex-col gap-3 border-b border-border pb-5 sm:flex-row sm:items-end sm:justify-between">
+      <div className="border-l-4 border-coral pl-4">
         <h1 className="text-2xl font-bold sm:text-3xl">{title}</h1>
         {description && <p className="mt-1 max-w-2xl text-sm text-muted-foreground">{description}</p>}
       </div>
@@ -26,7 +26,7 @@ export function Panel({ title, description, children, className, actions }: {
   actions?: ReactNode;
 }) {
   return (
-    <section className={cn("card-surface p-5", className)}>
+    <section className={cn("workspace-panel p-5", className)}>
       {(title || actions) && (
         <div className="mb-4 flex items-start justify-between gap-3">
           <div>
@@ -55,12 +55,17 @@ export function StatCard({ label, value, hint, icon: Icon, tone = "primary" }: {
     warning: "bg-warning-soft text-warning",
   };
   return (
-    <div className="card-surface flex items-start gap-4 p-5">
+    <div className={cn("theme-stat flex items-start gap-4 rounded-lg border p-5", {
+      "theme-stat-primary": tone === "primary",
+      "theme-stat-teal": tone === "teal",
+      "theme-stat-success": tone === "success",
+      "theme-stat-warning": tone === "warning",
+    })}>
       <div className={cn("grid h-10 w-10 shrink-0 place-items-center rounded-lg", tones[tone])}>
         <Icon className="h-5 w-5" aria-hidden />
       </div>
       <div className="min-w-0">
-        <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">{label}</p>
+        <p className="text-xs font-medium text-muted-foreground">{label}</p>
         <p className="mt-1 text-2xl font-bold">{value}</p>
         {hint && <p className="mt-0.5 text-xs text-muted-foreground">{hint}</p>}
       </div>
