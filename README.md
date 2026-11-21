@@ -1,58 +1,109 @@
-# Welcome to your Lovable project
+# Proficiency Path Planner
+### A Student Skill Gap Analysis and Career Planning Platform
 
-This project was built with [Lovable](https://lovable.dev).
+Proficiency Path Planner is a web-based platform designed to help students understand their current skill levels and identify the skills they need to develop for their desired career paths.
 
-## Build with Lovable
+The platform allows students to assess their abilities, compare them with the requirements of selected career roles, identify skill gaps, and follow suitable recommendations to improve their proficiency.
 
-Open your project in the [Lovable editor](https://lovable.dev) and keep building.
+The main objective is to make career preparation more structured by helping students understand where they currently stand and what they need to work on next.
 
-- **Ship faster**: describe what you want to build and Lovable handles the code.
-- **Stay in sync**: connect the project to GitHub and every change made in Lovable is committed straight to your repository.
-- **Full ownership**: this code is yours. Push to your repository and your changes sync back into Lovable, ready for your next prompt.
+---
 
-## Development
+## Project Overview
 
-Prefer working locally? You need Node.js and npm — [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating).
+Choosing a career is only the first step. Understanding the skills required to reach that career goal is equally important.
 
-```sh
-git clone <this-repository-url>
-cd <repository-name>
-npm i
+Proficiency Path Planner addresses this problem by providing a structured way to evaluate existing skills against predefined career requirements. It helps students recognize areas of strength, identify areas that need improvement, and monitor their progress over time.
+
+## Key Features
+
+- **Skill Profiles:** Maintain and manage individual skill profiles.
+- **Target Career Roles:** Explore different career roles and their required skill sets.
+- **Self-Assessment:** Evaluate current proficiency levels across different skills.
+- **Skill Gap Analysis:** Compare existing skill levels with the expected proficiency for a selected career role.
+- **Personalized Recommendations:** Identify areas that require improvement and get suggestions for further learning.
+- **Progress Tracking:** Monitor skill development and track improvements over time.
+- **Reports:** View skill assessments and progress through organized reports.
+- **Editable Skill Taxonomy:** Add, modify, and manage skills according to changing requirements.
+
+## How It Works
+
+1. **Create a Skill Profile:** Add the skills you currently possess.
+2. **Select a Career Goal:** Choose a target role that matches your interests.
+3. **Assess Your Skills:** Enter your current proficiency levels.
+4. **Analyze Skill Gaps:** Compare your current abilities with the requirements of your selected role.
+5. **Review Recommendations:** Identify the skills that need more attention.
+6. **Track Your Progress:** Update your proficiency levels as you continue learning.
+
+## Technology Stack
+
+The project uses a modern web development setup. The technologies and dependencies used in the implementation are reflected in the project source code and configuration files.
+
+## Getting Started
+
+Follow these steps to run the project locally.
+
+### Prerequisites
+
+- Node.js
+- npm
+- Git
+
+### Installation
+
+**1. Clone the repository**
+
+```bash
+git clone https://github.com/princeraj-collab18/proficiency-path-planner.git
+```
+
+**2. Navigate to the project directory**
+
+```bash
+cd proficiency-path-planner
+```
+
+**3. Install dependencies**
+
+```bash
+npm install
+```
+
+**4. Start the development server**
+
+```bash
 npm run dev
 ```
 
-## Built with
+Open the local URL displayed in your terminal to access the application.
 
-- TanStack Start
-- TypeScript
-- React
-- Tailwind CSS
+*Note: If the project requires environment variables or database credentials, configure them locally before running the application. Never upload private credentials to GitHub.*
 
-## AI skill adviser
+## Project Objectives
 
-Open **Skill Assessment**, describe your career goals, and optionally add skill evidence such as projects or courses. **Suggest skills** returns up to eight existing skills with priorities, reasons and evidence notes. Select the skills you want to review, click **Assess selected skills**, choose your own 1–5 ratings, and save the assessment.
+- Help students understand the skill requirements of different career paths.
+- Identify the difference between existing skills and required proficiency levels.
+- Encourage structured and goal-oriented skill development.
+- Provide a simple way to monitor individual learning progress.
+- Make career preparation more organized and measurable.
 
-### How it works
+## Future Enhancements
 
-- `src/components/app/AISkillAdvisor.tsx` contains the form and selectable results.
-- `src/lib/skill-suggestions.functions.ts` runs a server-side AI Gateway request using `openai/gpt-6-astra` on the Responses surface. Credentials never go to the browser.
-- `src/lib/skill-suggestions.ts` validates the input and filters out unknown, duplicate or malformed skill suggestions.
-- `src/routes/_authenticated/_shell.assessment.tsx` shows the selected skills in a separate assessment tab. AI never changes ratings, career requirements, readiness scores or gap calculations.
-- `src/generated/ai-gateway/models.d.ts` is generated by `bunx ai-gateway generate --model openai/gpt-6-astra`; do not edit it manually.
+Some possible improvements for future versions include:
 
-The student description, target role, skill names, categories and current ratings are sent to AI only after submission. AI suggestions are temporary and may be inaccurate; students must assess themselves. Lovable Cloud stores each signed-in student's private workspace and powers server execution and the managed AI credential. AI calls require sign-in and use workspace credits; durable usage limits are not yet implemented.
+- Integration of additional career profiles and industry-specific skill requirements.
+- More detailed learning resources for identified skill gaps.
+- Advanced progress reports and skill comparison tools.
+- Improved recommendations based on individual learning progress.
+- Additional assessment options for evaluating practical skills.
 
-## Career Goals
+## Project Information
 
-Open **Career Goals** from the navigation. Save a long-term ambition, career interests, and optional areas of interest. Goals are stored with the signed-in student's private workspace, separately from learning goals and skill ratings.
+**Project Name:** Proficiency Path Planner  
+**Project Category:** Web Development / Educational Technology  
+**Project Focus:** Student Skill Assessment and Career Planning
 
-- The page shows up to three matching roles and relevant skills from the student's current editable catalogue, with reasons for each role match.
-- **Set as target** changes the role used by gap analysis and reports. **Assess relevant skills** opens the assessment page filtered to those existing skills; ratings remain student-entered.
-- Saved career goals prefill the AI skill adviser's goals field. Saving Career Goals does not send anything to AI or use AI credits.
-- Matching is an educational, rule-based comparison, not AI or an employability prediction. It compares words in the description with role/skill names, descriptions, related career vocabulary and selected categories. Stronger name and vocabulary matches rank above weaker description matches. Unrelated interests produce an empty state rather than invented roles.
-- `src/lib/career-goals.ts` holds validation and the pure matching function, `src/lib/career-goals.test.ts` tests it, and `src/routes/_authenticated/_shell.career-goals.tsx` contains the page.
-- `careerGoals` is an optional field on `AppData`, so older saved workspaces still load. The existing authenticated save function validates it before saving.
+---
 
-### Setup, checks and deployment
+*Developed as a student project with the aim of making skill assessment and career planning more accessible and organized.*
 
-In this Lovable project, Cloud and AI Gateway are configured. For local development use `bun install` and `bun run dev`. The managed AI credential must be supplied securely in the server environment outside Lovable; never place it in browser code or commit it. Run `bunx vitest run` to check the calculation and suggestion rules. Publish through Lovable to deploy the app and its server function together. No separate function deployment is needed.
